@@ -32,8 +32,6 @@ public class Uploader {
        return new HttpTools().postJson(new URL(link),this.json_payload,"jsonpayload");
     }
 
-
-
     public String getUrl() {
         return link;
     }
