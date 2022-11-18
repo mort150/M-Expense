@@ -1,4 +1,4 @@
-package com.example.assignment_demo.Tools;
+package com.example.assignment_demo.Helper;
 
 public class ArrayTool {
     public static int findItemPosition(Object[] targetArray,Object searchItem){

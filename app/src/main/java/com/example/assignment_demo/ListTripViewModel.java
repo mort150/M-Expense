@@ -15,7 +15,7 @@ public class ListTripViewModel extends ViewModel {
 
     public LiveData<List<Trip>> getListTrips() {
         LiveData<List<Trip>> listTrip = db.tripDAO().getAllData();
-        listTrip.observeForever(tripData->{
+        listTrip.observeForever(tripData -> {
             trips.setValue(tripData);
         });
         return trips;
@@ -29,8 +29,8 @@ public class ListTripViewModel extends ViewModel {
         this.db = db;
     }
 
-    public LiveData<List<Trip>> searchTripByName(String tripName){
-        if(tripName.isEmpty()){
+    public LiveData<List<Trip>> searchTripByName(String tripName) {
+        if (tripName.isEmpty()) {
             return db.tripDAO().getAllData();
         }
 

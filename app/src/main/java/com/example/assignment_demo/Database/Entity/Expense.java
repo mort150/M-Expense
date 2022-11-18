@@ -16,14 +16,6 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(String expenseName, double amount, String expenseDate, String comment, Trip trip) {
-        this.expenseName = expenseName;
-        this.amount = amount;
-        this.expenseDate = expenseDate;
-        this.comment = comment;
-        this.trip = trip;
-    }
-
     public int getExpenseId() {
         return expenseId;
     }

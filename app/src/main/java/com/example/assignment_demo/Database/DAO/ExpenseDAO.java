@@ -14,17 +14,17 @@ import java.util.List;
 @Dao
 public interface ExpenseDAO {
     @Insert
-    public void insert(Expense expense);
+    void insert(Expense expense);
 
-    @Update
-    void update(Expense expense);
+    @Query("SELECT * FROM expense WHERE expenseId = :expenseId")
+    LiveData<Expense> findExpenseById(int expenseId);
 
     @Query("SELECT * FROM expense WHERE tripId = :tripId")
     LiveData<List<Expense>> getByTripId(int tripId);
 
+    @Update
+    void update(Expense expense);
+
     @Query("DELETE FROM expense WHERE expenseId = :expenseId")
     void delete(int expenseId);
-
-    @Query("SELECT * FROM expense WHERE expenseId = :expenseId")
-    LiveData<Expense> findExpenseById(int expenseId);
 }

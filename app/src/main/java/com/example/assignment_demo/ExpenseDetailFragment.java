@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.assignment_demo.Database.AppDB;
-import com.example.assignment_demo.Tools.ViewAlertTool;
+import com.example.assignment_demo.Helper.ViewAlertTool;
 import com.example.assignment_demo.databinding.FragmentExpenseDetailBinding;
 
 public class ExpenseDetailFragment extends Fragment {

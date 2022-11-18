@@ -12,16 +12,15 @@ import java.util.List;
 
 @Dao
 public interface TripDAO {
-    @Insert
-    public void insert(Trip trip);
-
-    @Update
-    void update(Trip trip);
 
     @Query("SELECT * FROM trip")
     LiveData<List<Trip>> getAllData();
-    @Query("DELETE FROM trip WHERE tripId = :tripId")
-    void delete(int tripId);
+
+    @Query("SELECT * FROM trip")
+    List<Trip> getAllDataWithoutLive();
+
+    @Insert
+    void insert(Trip trip);
 
     @Query("SELECT * FROM trip WHERE name LIKE :name")
     LiveData<List<Trip>> findTripByName(String name);
@@ -29,6 +28,9 @@ public interface TripDAO {
     @Query("SELECT * FROM trip WHERE tripId = :tripId")
     LiveData<Trip> findTripById(int tripId);
 
-    @Query("SELECT * FROM trip")
-    List<Trip> getAllDataWithoutLive();
+    @Update
+    void update(Trip trip);
+
+    @Query("DELETE FROM trip WHERE tripId = :tripId")
+    void delete(int tripId);
 }

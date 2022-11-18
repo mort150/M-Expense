@@ -14,9 +14,8 @@ import android.widget.Toast;
 
 import com.example.assignment_demo.Database.AppDB;
 import com.example.assignment_demo.Database.Entity.Expense;
-import com.example.assignment_demo.Database.Entity.Trip;
-import com.example.assignment_demo.Tools.ArrayTool;
-import com.example.assignment_demo.Tools.InputTool;
+import com.example.assignment_demo.Helper.ArrayTool;
+import com.example.assignment_demo.Helper.InputTool;
 import com.example.assignment_demo.databinding.FragmentExpenseEditorBinding;
 
 public class ExpenseEditorFragment extends Fragment {
@@ -38,6 +37,7 @@ public class ExpenseEditorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentExpenseEditorBinding.inflate(inflater, container, false);
+
         InputTool.createDatePicker(requireContext(), binding.expenseTime);
         ArrayAdapter<String> expenseTypeAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, expenseTypes);
@@ -55,6 +55,7 @@ public class ExpenseEditorFragment extends Fragment {
                             expense.setExpenseDate(binding.expenseTime.getText().toString());
                             expense.setAmount(Double.parseDouble(binding.expenseCost.getText().toString()));
                             expense.setComment(binding.comment.getText().toString().isEmpty() ? "" : binding.comment.getText().toString());
+
                             db.tripDAO().findTripById(tripId).observe(getViewLifecycleOwner(), (trip) -> {
                                 expense.setTrip(trip);
                                 db.expenseDAO().insert(expense);

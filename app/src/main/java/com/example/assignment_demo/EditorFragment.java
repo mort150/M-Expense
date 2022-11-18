@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.assignment_demo.Database.AppDB;
 import com.example.assignment_demo.Database.Entity.Trip;
-import com.example.assignment_demo.Tools.InputTool;
+import com.example.assignment_demo.Helper.InputTool;
 import com.example.assignment_demo.databinding.FragmentEditorBinding;
 
 public class EditorFragment extends Fragment {
@@ -41,6 +41,7 @@ public class EditorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentEditorBinding.inflate(inflater, container, false);
+
         InputTool.createDatePicker(requireContext(), binding.date);
         if (getArguments() == null) {
             requireActivity().setTitle("Add trip");
@@ -92,13 +93,11 @@ public class EditorFragment extends Fragment {
                             }
                         });
             }));
-
-//            Trip trip = db.tripDAO().findTripById(tripId);
-
         }
 
         return binding.getRoot();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

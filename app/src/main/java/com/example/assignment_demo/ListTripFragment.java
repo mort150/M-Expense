@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,11 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.assignment_demo.Database.AppDB;
 import com.example.assignment_demo.Database.Entity.Trip;
-import com.example.assignment_demo.Tools.Uploader;
+import com.example.assignment_demo.Helper.Uploader;
 import com.example.assignment_demo.databinding.FragmentListTripBinding;
 
 import org.json.JSONException;
@@ -37,9 +35,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class ListTripFragment
         extends Fragment {
@@ -67,9 +63,9 @@ public class ListTripFragment
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menuInflater.inflate(R.menu.menu_main, menu);
-                ((SearchView) menu.findItem(R.id.searchAction).getActionView()).setOnClickListener((v -> {
-                    binding.toolbarTitle.setVisibility(View.GONE);
-                }));
+                menu.findItem(R.id.searchAction).getActionView()
+                        .setOnClickListener((v -> binding.toolbarTitle.setVisibility(View.GONE)));
+
                 ((SearchView) menu.findItem(R.id.searchAction).getActionView()).setOnCloseListener(() -> {
                     binding.toolbarTitle.setVisibility(View.VISIBLE);
                     return false;
@@ -93,7 +89,8 @@ public class ListTripFragment
                     CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
                         Uploader uploader = new Uploader("http://cwservice1786.herokuapp.com/sendPayLoad");
                         uploader.setUserId("123");
-                        uploader.setParam(tripList);
+                        uploader.setParameter(tripList);
+
                         handler.post(() -> {
                             new AlertDialog.Builder(requireContext()).setTitle("Request").setMessage(uploader.getJson_payload())
                                     .setNeutralButton("OK", null).show();
@@ -102,25 +99,24 @@ public class ListTripFragment
                             return uploader.upload();
                         } catch (IOException e) {
                             e.printStackTrace();
+
                             return null;
                         }
                     });
-                    future.thenAccept(result -> {
+                    future.thenAccept(result -> handler.post(() -> {
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            new AlertDialog.Builder(requireContext()).setTitle(jsonObject.getString("uploadResponseCode"))
+                                    .setMessage("User ID: " + jsonObject.getString("userid") + "\n"
+                                            + "Number of uploaded trips: " + jsonObject.getString("number") + "\n"
+                                            + "Message: " + jsonObject.getString("message"))
 
-                        handler.post(() -> {
-                            try {
-                                JSONObject jsonObject = new JSONObject(result);
-                                new AlertDialog.Builder(requireContext()).setTitle(jsonObject.getString("uploadResponseCode"))
-                                        .setMessage("User ID: " + jsonObject.getString("userid") + "\n"
-                                                + "Number of uploaded trips: " + jsonObject.getString("number") + "\n"
-                                                + "Message: " + jsonObject.getString("message"))
+                                    .setNeutralButton("OK", null).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }));
 
-                                        .setNeutralButton("OK", null).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    });
                     return false;
                 });
             }
@@ -140,6 +136,7 @@ public class ListTripFragment
         binding.FabAdd.setOnClickListener((view) -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_listTripFragment_to_editorFragment);
         });
+
         return binding.getRoot();
     }
 
@@ -151,6 +148,7 @@ public class ListTripFragment
             bundle.putInt("tripId", listTrip.get(position).getTripId());
             NavHostFragment.findNavController(this).navigate(R.id.action_listTripFragment_to_expenseFragment, bundle);
         }));
+
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager((new LinearLayoutManager(requireContext())));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(),

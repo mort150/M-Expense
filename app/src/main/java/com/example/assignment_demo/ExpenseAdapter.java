@@ -38,11 +38,12 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         this.onClickListener = onClickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView expenseType;
         public TextView expenseCost;
         public FloatingActionButton expenseItemFab;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             expenseType = itemView.findViewById(R.id.expenseType);

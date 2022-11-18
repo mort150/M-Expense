@@ -15,22 +15,14 @@ import java.util.List;
 
 public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHolder> {
     public interface OnClickListener {
-        public void OnClick(View view, int position);
+        void OnClick(View view, int position);
     }
 
     public TripListAdapter(List<Trip> trips) {
         this.trips = trips;
     }
 
-    private List<Trip> trips;
-
-    public List<Trip> getTrips() {
-        return trips;
-    }
-
-    public void setTrips(List<Trip> trips) {
-        this.trips = trips;
-    }
+    private final List<Trip> trips;
 
     public OnClickListener onClickListener;
 
@@ -43,8 +35,10 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         public TextView tripName;
         public TextView tripTime;
         public FloatingActionButton iconTravel;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tripName = itemView.findViewById(R.id.tripName);
             tripTime = itemView.findViewById(R.id.tripTime);
             iconTravel = itemView.findViewById(R.id.tripItemFab);

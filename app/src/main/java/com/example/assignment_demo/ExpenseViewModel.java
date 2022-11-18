@@ -10,7 +10,7 @@ import com.example.assignment_demo.Database.Entity.Expense;
 import java.util.List;
 
 public class ExpenseViewModel extends ViewModel {
-    private MutableLiveData<List<Expense>> expense = new MutableLiveData<>();
+    private final MutableLiveData<List<Expense>> expense = new MutableLiveData<>();
     private AppDB db;
 
     public void setDb(AppDB db) {

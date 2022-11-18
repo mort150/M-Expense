@@ -18,8 +18,4 @@ public class EditorViewModel extends ViewModel {
         this.db = db;
     }
 
-    public LiveData<Void> addTrip(Trip trip){
-        db.tripDAO().insert(trip);
-        return new MutableLiveData<>();
-    }
 }
